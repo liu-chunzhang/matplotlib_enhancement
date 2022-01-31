@@ -3,16 +3,18 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import numpy as np
 
+from matplotlib.ticker import MultipleLocator
+
 fig, ax = plt.subplots()
 
 # tick every 5th easter
 rule = mdates.rrulewrapper(mdates.YEARLY, byeaster=0, interval=2)
-loc = mdates.RRuleLocator(rule)	# a Locator distance
+loc = mdates.RRuleLocator(rule)											# a Locator distance
 
-dateFmt = mdates.DateFormatter("%m/%d/%y")	# a Formatter instance
+dateFmt = mdates.DateFormatter("%m/%d/%y")								# a Formatter instance
 
 # format the ticks
-ax.xaxis.set_major_locator(loc)
+ax.xaxis.set_major_locator(loc)											# 设置x轴主刻度线
 ax.xaxis.set_major_formatter(dateFmt)
 
 # set appearance parameters for ticks, ticklabels and gridlines
@@ -23,10 +25,13 @@ date1 = datetime.date(2004, 5, 17)
 date2 = datetime.date(2016, 6, 4)
 delta = datetime.timedelta(days=5)
 dates = mdates.drange(date1, date2, delta)
-
 y = np.random.normal(120, 12, len(dates))
 
 ax.plot_date(dates, y, "b-", alpha=0.7)
+
+ax.set_xmargin(0)
+ax.set_ylim(80, 160)
+ax.yaxis.set_major_locator(MultipleLocator(10))
 
 fig.autofmt_xdate()
 

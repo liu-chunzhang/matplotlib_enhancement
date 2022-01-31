@@ -1,14 +1,15 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib as mpl
 
-fig, ax = plt.subplots(1, 1)
+from matplotlib.ticker import MultipleLocator
 
-num = 50
+fig, ax = plt.subplots()
 
 # new sample
-sample = 10*np.random.rand(num, 2)
-var1 = sample[ : , 0]
-var2 = sample[ : , 1]
+sample = 10*np.random.rand(50, 2)	# 生成50个2维随机有序数组
+var1 = sample[ : , 0]				# 取上述有序数组的第0维
+var2 = sample[ : , 1]				# 取上述有序数组的第1维
 
 # threshold value
 td = 12
@@ -17,18 +18,14 @@ td = 12
 df = 2*var1 + var2
 
 cates11 = np.ma.masked_where(df>=td, var1)
-cates12 = np.ma.masked_where(df>=td, var2)
-
 cates21 = np.ma.masked_where(df<=td, var1)
-cates22 = np.ma.masked_where(df<=td, var2)
 
-ax.scatter(var1, var2, s=cates11*50, marker="s", c=cates11)
-print(sorted(cates11*50))
-print(sorted(cates11))
-ax.scatter(var1, var2, s=cates21*50, marker="o", c=cates21)
+ax.scatter(var1, var2, s=cates11*50, marker="s", c=cates11, edgecolor="k", cmap=mpl.cm.jet)
+ax.scatter(var1, var2, s=cates21*50, marker="o", c=cates21, edgecolor="k", cmap=mpl.cm.jet)
 
 ax.plot(var1, -2*var1 + 12, lw=1, color='b', alpha=0.65)
-
 ax.axis([-1, 11, -1, 11])
+ax.xaxis.set_major_locator(MultipleLocator(2.0))
+ax.yaxis.set_major_locator(MultipleLocator(2.0))
 
 plt.show()
